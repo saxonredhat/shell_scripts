@@ -29,7 +29,7 @@ code=0
 echo "Stop  Tomcat..."
 echo "$TOMCAT_HOME/bin/shutdown.sh"
 while [ $i -lt 60 ]&&[ $code -eq 0 ];do
-	$TOMCAT_HOME/bin/shutdown.sh 
+	$TOMCAT_HOME/bin/shutdown.sh >/dev/null 2>/dev/null 
         sleep 1
         netstat -tlnp|awk '{print $4}'|grep -E ":$TOMCAT_PORT$" >/dev/null 2>/dev/null
         code=$?
