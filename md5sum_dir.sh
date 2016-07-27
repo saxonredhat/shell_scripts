@@ -40,7 +40,7 @@ if [ x"$TYPE" == x"d" ];then
 	FILE_NAME="目录"
 fi
 
-#比较目录DIR中DIR2对应的文件md5值是否相等，如果不等或者DIR2不存在这个文件，则打印出来
+# 比较目录DIR中DIR2对应的文件md5值是否相等，如果不等或者DIR2不存在这个文件，则打印出来
 find $DIR -type $TYPE|while read FILE;do
 	SUBFIX_FILE=`echo "$FILE"|sed s#^$DIR##g|sed s#^/##g`
 	FILE2="`echo \"$DIR2/$SUBFIX_FILE\"|sed s#//#/#g`"
