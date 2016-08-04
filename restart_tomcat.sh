@@ -19,7 +19,7 @@ if [ x"$TOMCAT_HOME" == x"" ];then
         echo -e "错误:没有指定脚本tomcat_home参数\n使用方法:bash $SCRIPT_DIR/$0 tomcat_home=/data/app/tomcat #其中/data/app/tomcat就是TOMCAT根目录"
         exit 1
 fi
-JAVA_OPTS=`grep -E "^[[:space:]]*JAVA_OPTS=" ${TOMCAT_HOME}/bin/catalina.sh|head -1|cut -d= -f2-|sed -e "s/^[\"|']//g" -e "s/[\"|']$//g"`
+JAVA_OPTS=`grep -E "^[[:space:]]*JAVA_OPTS=" ${TOMCAT_HOME}/bin/catalina.sh|tail -1|cut -d= -f2-|sed -e "s/^[\"|']//g" -e "s/[\"|']$//g"`
 export JAVA_OPTS
 #fi
 echo "********************* 停止TOMCAT ******************"
