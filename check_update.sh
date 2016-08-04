@@ -3,7 +3,6 @@ if [ $# -lt 2 ];then
 	echo -e "使用方法:\n$0 old=目录1 new=目录2 [-p|-o|--type=[f|d|file|dir]]\n\told=目录1 被比较的目录\n\tnew=目录2 比较的目录\n\t-p 开启权限比较\n\t-o 开启所属用户和所属组的比较\n\t--type=[f|d|file|dir] 指定进行比较文件还是目录,f或者file表示文件比较,d或者dir表示目录比较\n\t--print-md5sum 如果md5校验值不同,则打印被md5校验值"
 	exit 1
 fi
-#echo $@
 DIR=""
 DIR2=""
 GRANT=0
