@@ -3,6 +3,7 @@ PROJECT="$1"
 ENV="$2"
 TOMCAT_HOME="$3"
 ROLLBACK_VERSION="`echo $4|awk -Fnow- '{ print $2}'`"
+[ ! -f /data/deploy/scripts/upgrade/$ENV/$PROJECT/last_${PROJECT}_${ENV}_build.txt ]&&echo -e "\033[33m错误:last_${PROJECT}_${ENV}_build.txt文件不存在!\034[0m"&&exit 1
 BACKUP_NUMS=`wc -l /data/deploy/scripts/upgrade/$ENV/$PROJECT/last_${PROJECT}_${ENV}_build.txt|awk '{ print $1}'`
 if [ $ROLLBACK_VERSION -gt $BACKUP_NUMS ];then
 	echo -e "\033[33m错误:回退版本不存在!\033[0m"
