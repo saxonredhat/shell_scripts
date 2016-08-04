@@ -70,12 +70,16 @@ while read FILE;do
 	SUBFILE=`echo $SUBFIX_FILE|sed 's#^\(.*\/\)\([^/]*\)$#\2#g'`
 	if [ x"$TYPE" == x"d" ];then
 		if [ ! -d "$FILE2" ];then
-            echo -e "${DIR2}\t\033[33m新增目录+\033[0m\t$SUBFIX_FILE"
+			if [ $ROLLBACK -eq 0 ];then
+            	echo -e "${DIR2}\t\033[33m新增目录+\033[0m\t$SUBFIX_FILE"
+			fi 
             continue
         fi
 	else
 		if [ ! -f "$FILE2" ];then
-            echo -e "${DIR2}\t\033[33m新增文件+\033[0m\t$SUBFIX_FILE"
+			if [ $ROLLBACK -eq 0 ];then
+            	echo -e "${DIR2}\t\033[33m新增文件+\033[0m\t$SUBFIX_FILE"
+			fi
 			continue
 		fi
 		
