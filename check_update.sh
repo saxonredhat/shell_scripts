@@ -10,6 +10,7 @@ GRANT=0
 OWNER=0
 PRINT_MD5=0
 UPGRADE=0
+ROLLBACK=0
 for var in "$@"
 do
 	case $var in
@@ -34,6 +35,9 @@ do
 		--print-md5sum)
 		PRINT_MD5=1
 		;;
+		--rollback)
+		ROLLBACK=1
+		;;
 		*)
 		echo -e "参数错误:参数${var}不能匹配\n使用方法:\n$0 old=目录1 new=目录2 [-p|-o|--type=[f|d|file|dir]]\n\told=目录1 被比较的目录\n\tnew=目录2 比较的目录\n\t-p 开启权限比较\n\t-o 开启所属用户和所属组的比较\n\t--type=[f|d|file|dir] 指定进行比较文件还是目录,f或者file表示文件比较,d或者dir表示目录比较\n\t--print-md5sum 如果md5校验值不同,则打印被md5校验值"
 		exit 1
@@ -52,7 +56,11 @@ if [ x"$TYPE" == x"d" ];then
 fi
 
 # 比较目录DIR中DIR2对应的文件md5值是否相等，如果不等或者DIR2不存在这个文件，则打印出来
-echo -e "\033[35m对升级前后进行md5校验,检测出实际更新的文件$SUBFIX_FILE\033[0m"
+if [ $ROLLBACK -eq 1 ];then
+	echo -e "\033[35m对回滚前后进行md5校验,检测文件是否回滚成功$SUBFIX_FILE\033[0m"
+else
+	echo -e "\033[35m对升级前后进行md5校验,检测实际更新的文件$SUBFIX_FILE\033[0m"
+fi
 echo "++++++++++++++++++++++++++++++++++++++++++++"
 find $DIR2 -type $TYPE >temp_dir.txt
 while read FILE;do
@@ -88,7 +96,16 @@ while read FILE;do
 done <temp_dir.txt
 rm -f temp_dir.txt
 if [ $UPGRADE -eq 0 ];then
-	echo -e "\033[40;33m注意:$DIR2 升级前后所有文件内容无变化!!!\033[0m"
+	if [ $ROLLBACK -eq 1 ];then
+		echo -e "\033[40;32m 恭喜回滚成功!!!\033[0m"
+	else
+		echo -e "\033[40;33m $DIR2 升级前后所有文件内容无变化!!!\033[0m"
+	fi
+else
+	if [ $ROLLBACK -eq 1 ];then
+        echo -e "\033[40;31m 错误:回滚失败!!!\033[0m"
+		exit 1
+	fi
 fi
 echo "++++++++++++++++++++++++++++++++++++++++++++"
 #反向比较
